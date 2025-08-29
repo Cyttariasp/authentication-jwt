@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-const Register = () => {
+const Login = () => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
     const [user, setUser] = useState({
-        email: "", password: "", name: ""
+        email: "", password: ""
     });
 
     const navigate = useNavigate();
@@ -18,20 +18,9 @@ const Register = () => {
 
     const handleUserSubmit = (e) => {
         e.preventDefault();
-        fetch(`${backendUrl}/api/user`, {
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user),
-            method: 'POST'
-        })
-            .then(response => {
-                if (response.status === 200) {
-                    alert("User created successfully");
-                    navigate('/');
-                }
-                return response.json();
-            })
-            .then(data => alert(data.message))
-            .catch(err => console.error(err));
+        // TODO: add login logic
+
+
     }
 
     return (
@@ -42,12 +31,15 @@ const Register = () => {
                 <input onChange={handleChange} name='email' type="email" id="inputEmail" className="form-control" placeholder="Email address" required="" autoFocus="" />
                 <label htmlFor="inputPassword" className="sr-only">Password</label>
                 <input onChange={handleChange} name='password' type="password" id="inputPassword" className="form-control" placeholder="Password" required="" />
-                <label htmlFor="inputName" className="sr-only">Name</label>
-                <input onChange={handleChange} name='name' type="text" id="inputName" className="form-control" placeholder="Name" required="" />
-                <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <div className="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" value="remember-me" /> Remember me
+                    </label>
+                </div>
+                <button className="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
             </form>
         </div >
 
     )
 }
-export default Register;
+export default Login;

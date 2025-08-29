@@ -10,8 +10,9 @@ from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-from api.extensions import bcrypt
+from api.extensions import bcrypt, jwt
 from flask_cors import CORS
+
 
 
 # from models import Person
@@ -22,6 +23,7 @@ static_file_dir = os.path.join(os.path.dirname(
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
 bcrypt.init_app(app)
+jwt.init_app(app)
 app.url_map.strict_slashes = False
 
 
@@ -37,6 +39,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY')
 # SECRET_KEY=supersecretkey para fines del proyecto 
 
 # add the admin
